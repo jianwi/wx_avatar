@@ -1,8 +1,9 @@
 <template>
 	<view id="container">
 		<view id="two_btn" class="btn-group">
-			<button @click="uploadPic">上传图片</button>
-			<button @click="downLoadPic">保存头像</button>
+			<!-- <button @click="uploadPic">上传图片</button> -->
+			<button v-if="!canIUse" open-type="getUserInfo" @click="bindGetUserInfo" type="default">授权使用微信头像</button>
+			<button @click="downLoadPic" v-else>保存头像</button>
 		</view>
 		<view>
 			<view id="left_btn" @click="prev_img">
@@ -34,7 +35,8 @@
 				images_count: 26,
 				images: [],
 				hide_preview: false,
-				bg_image:''
+				bg_image:'',
+				canIUse: false
 			}
 		},
 		onLoad() {
@@ -42,8 +44,8 @@
 				title: '加载中...',
 				mask: true
 			})
+			this.getUserInfo()
 			
-	
 			for (let i = 1; i <= this.images_count; i++) {
 				uni.getImageInfo({
 					src: this.url + i + '.png',
@@ -60,6 +62,30 @@
 			}
 		},
 		methods: {
+			bindGetUserInfo(e){
+				console.log(e)
+				this.getUserInfo()
+				console.log(e.detail.userInfo)
+			},
+			getUserInfo()
+			{
+				uni.getSetting({
+					success:(res)=>{
+						 if (res.authSetting['scope.userInfo']) {
+						          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+						          uni.getUserInfo({
+						            success: (res) =>{
+						              console.log(res.userInfo)
+									  this.back_pic = res.userInfo.avatarUrl
+									  this.canIUse = true
+						            },
+						          })
+								  }else{
+									  this.canIUse = false
+								  }
+					}
+				})
+			},
 			prev_img() {
 				if (this.img_index == 0){
 					this.img_index = this.images_count - 1
@@ -68,6 +94,7 @@
 				this.top_pic = this.images[--this.img_index]
 				console.log('lll')
 			},
+		
 			next_img() {
 				if (this.img_index == this.images_count - 1) {
 					this.img_index = 1
@@ -181,7 +208,7 @@
 	}
 	#two_btn button {
 		display: inline-block;
-		width: 225rpx;
+		min-width: 225rpx;
 		background-color: transparent;
 		font-weight: 700;
 		border: 1px solid #FFFFFF;
