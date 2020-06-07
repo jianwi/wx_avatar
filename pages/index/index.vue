@@ -55,13 +55,35 @@
 							this.top_pic = res.path
 						}
 						if(this.images.length == 3)	{
-							uni.hideLoading()
+							if(this.canIUse){
+								if(this.back_pic != ""){
+										uni.hideLoading()
+								}
+							}else{
+								uni.hideLoading()
+							}
 						}
 					}
 				})
 			}
 		},
 		methods: {
+		 headimgHD(imageUrl) {
+			        console.log('原来的头像', imageUrl);
+			        
+			        imageUrl = imageUrl.split('/');        //把头像的路径切成数组
+			        
+			        //把大小数值为 46 || 64 || 96 || 132 的转换为0
+			        if (imageUrl[imageUrl.length - 1] && (imageUrl[imageUrl.length - 1] == 46 || imageUrl[imageUrl.length - 1] == 64 || imageUrl[imageUrl.length - 1] == 96 || imageUrl[imageUrl.length - 1] == 132)) {
+			            imageUrl[imageUrl.length - 1] = 0;
+			        }
+			       
+			        imageUrl = imageUrl.join('/');   //重新拼接为字符串
+			 
+			        console.log('高清的头像', imageUrl);
+			 
+			        return imageUrl;
+			   },
 			bindGetUserInfo(e){
 				console.log(e)
 				this.getUserInfo()
@@ -73,15 +95,32 @@
 					success:(res)=>{
 						 if (res.authSetting['scope.userInfo']) {
 						          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+								  uni.showLoading({
+								  	title: '头像正在加载中',
+								  	mask: true
+								  })
 						          uni.getUserInfo({
 						            success: (res) =>{
 						              console.log(res.userInfo)
-									  this.back_pic = res.userInfo.avatarUrl
+									  
+									  uni.getImageInfo({
+									  	src: this.headimgHD(res.userInfo.avatarUrl),
+									  	success: (res) => {
+											 this.back_pic = res.path
+											 if(this.images.length > 2)	{
+											 	uni.hideLoading()
+											 }
+									  	}
+									  })
+									 
 									  this.canIUse = true
 						            },
 						          })
 								  }else{
 									  this.canIUse = false
+									  if(this.images.length > 2)	{
+									  	uni.hideLoading()
+									  }
 								  }
 					}
 				})
