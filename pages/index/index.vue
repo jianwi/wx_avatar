@@ -28,7 +28,7 @@
 	export default {
 		data() {
 			return {
-				url: 'https://pan.jialidun.vip/head/',
+				url: 'cloud://wxxcxavatarningxiazh-arfs8.7778-wxxcxavatarningxiazh-arfs8-1302436292/avatar/',
 				top_pic: '',
 				back_pic: '',
 				img_index: 0,
@@ -45,14 +45,30 @@
 				mask: true
 			})
 			this.getUserInfo()
+			wx.cloud.init()
+			wx.cloud.downloadFile({
+			  fileID: this.url+"1.png", // 文件 ID
+			  success: res => {
+						this.top_pic = res.tempFilePath
+		
+			  },
+			  fail: (e)=>{
+				  console.log(e)
+				  console.log("失败了"+i)
+			  }
+			})
 			
 			for (let i = 1; i <= this.images_count; i++) {
-				uni.getImageInfo({
-					src: this.url + i + '.png',
-					success: (res) => {
-						this.images.push(res.path)
+				// cloud://yibanyunwxavatar-e927e.7969-yibanyunwxavatar-e927e-1302400054/head/
+				wx.cloud.downloadFile({
+				  fileID: this.url+i+".png", // 文件 ID
+				  success: res => {
+					{
+						this.images.push(res.tempFilePath)
 						if (this.top_pic == "") {
-							this.top_pic = res.path
+							console.log("当前是"+i)
+							
+							this.top_pic = this.images[0]
 						}
 						if(this.images.length == 3)	{
 							if(this.canIUse){
@@ -64,6 +80,11 @@
 							}
 						}
 					}
+				  },
+				  fail: (e)=>{
+					  console.log(e)
+					  console.log("失败了"+i)
+				  }
 				})
 			}
 		},
@@ -184,7 +205,7 @@
 
 <style>
 	#container {
-		background: url("https://pan.jianwi.cn/wx%E6%AF%95%E4%B8%9A%E5%AD%A3bg.jpg");
+		background: url("https://7778-wxxcxavatarningxiazh-arfs8-1302436292.tcb.qcloud.la/bg.jpg?sign=86453f9a1fc69d56df587177807ce236&t=1592297314");
 		background-size: cover;
 		background-repeat: no-repeat;
 		position: relative;
@@ -213,7 +234,7 @@
 		position: absolute;
 		top: 773rpx;
 		font-size: 60rpx;
-		color: white;
+		color: black;
 		background-color: transparent;
 	}
 
