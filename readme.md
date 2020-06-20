@@ -10,4 +10,4 @@
 > 陕科大易班版本：
 > ![易班版](./qrcode/sust_yiban.jpg)
 > 宁夏技术学院版：
-> ![设计学院版](./qrcode/ningzhi.jpg)
+> ![宁职版](./qrcode/ningzhi.jpg)
