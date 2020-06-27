@@ -28,11 +28,11 @@
 	export default {
 		data() {
 			return {
-				url: 'cloud://wxxcxavatarningxiazh-arfs8.7778-wxxcxavatarningxiazh-arfs8-1302436292/avatar/',
+				url: 'cloud://xiankejidaxue-f8ra1.7869-xiankejidaxue-f8ra1-1302515215/head/',
 				top_pic: '',
 				back_pic: '',
 				img_index: 0,
-				images_count: 26,
+				images_count: 28,
 				images: [],
 				hide_preview: false,
 				bg_image:'',
@@ -47,7 +47,7 @@
 			this.getUserInfo()
 			wx.cloud.init()
 			wx.cloud.downloadFile({
-			  fileID: this.url+"1.png", // 文件 ID
+			  fileID: this.url+"1 (1).png", // 文件 ID
 			  success: res => {
 						this.top_pic = res.tempFilePath
 		
@@ -61,7 +61,7 @@
 			for (let i = 1; i <= this.images_count; i++) {
 				// cloud://yibanyunwxavatar-e927e.7969-yibanyunwxavatar-e927e-1302400054/head/
 				wx.cloud.downloadFile({
-				  fileID: this.url+i+".png", // 文件 ID
+				  fileID: this.url+1+' ('+i+')'+".png", // 文件 ID
 				  success: res => {
 					{
 						this.images.push(res.tempFilePath)
@@ -205,7 +205,7 @@
 
 <style>
 	#container {
-		background: url("https://7778-wxxcxavatarningxiazh-arfs8-1302436292.tcb.qcloud.la/bg.jpg?sign=86453f9a1fc69d56df587177807ce236&t=1592297314");
+		background: url("https://7869-xiankejidaxue-f8ra1-1302515215.tcb.qcloud.la/bg.jpg?sign=7d0fbe37a676cb87894dba984487368a&t=1593251969");
 		background-size: cover;
 		background-repeat: no-repeat;
 		position: relative;
@@ -252,6 +252,7 @@
 		text-align: center;
 		position: absolute;
 		top: 1050rpx;
+		color: black;
 	}
 
 	#cav_container {
@@ -271,16 +272,16 @@
 		min-width: 225rpx;
 		background-color: transparent;
 		font-weight: 700;
-		border: 1px solid #FFFFFF;
+		border: 1px solid black;
 		border-radius: 50rpx;
-		color: #FFFFFF;
+		color: skygreen;
 		font-size: 30rpx;
 		margin-left: 50rpx;
 		margin-right: 50rpx;
 		padding: 0px 25rpx;
 	}
 	.background-image{
-	   height : 100%;
+	    height: 100%;
 	    position: absolute;
 	    width: 100%;
 	    left: 0px;
